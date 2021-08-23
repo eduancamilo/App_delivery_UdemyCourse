@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
           color: MyColors.primaryOpacityColor,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
-        controller: getController(texto),
+        controller: _getController(texto),
         keyboardType: tipo,
         obscureText: password,
         decoration: InputDecoration(
@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  TextEditingController getController(String texto) {
+  TextEditingController _getController(String texto) {
     if (texto == "Correo Electronico") {
       return _con.emailController;
     } else {
