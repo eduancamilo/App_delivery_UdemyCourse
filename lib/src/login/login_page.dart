@@ -44,8 +44,9 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 //_imageBanner(),
                 _lottieAnimation(),
-                _textFieldAccess('Correo Electronico', Icons.email),
-                _textFieldAccess('Contraseña', Icons.lock),
+                _textFieldAccess('Correo Electronico', Icons.email, false,
+                    TextInputType.emailAddress),
+                _textFieldAccess('Contraseña', Icons.lock, true),
                 _buttonLogin(),
                 _textRowAccount()
               ],
@@ -70,25 +71,38 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _textFieldAccess(String texto, IconData icono) {
+  Widget _textFieldAccess(String texto, IconData icono, bool password,
+      [TextInputType tipo]) {
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-        decoration: BoxDecoration(
-            color: MyColors.primaryOpacityColor,
-            borderRadius: BorderRadius.circular(30)),
-        child: TextField(
-          decoration: InputDecoration(
-              hintText: texto,
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.all(15),
-              hintStyle: TextStyle(
-                color: MyColors.primaryColorDark,
-              ),
-              prefixIcon: Icon(
-                icono,
-                color: MyColors.primaryColor,
-              )),
-        ));
+      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      decoration: BoxDecoration(
+          color: MyColors.primaryOpacityColor,
+          borderRadius: BorderRadius.circular(30)),
+      child: TextField(
+        controller: getController(texto),
+        keyboardType: tipo,
+        obscureText: password,
+        decoration: InputDecoration(
+            hintText: texto,
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.all(15),
+            hintStyle: TextStyle(
+              color: MyColors.primaryColorDark,
+            ),
+            prefixIcon: Icon(
+              icono,
+              color: MyColors.primaryColor,
+            )),
+      ),
+    );
+  }
+
+  TextEditingController getController(String texto) {
+    if (texto == "Correo Electronico") {
+      return _con.emailController;
+    } else {
+      return _con.passwordController;
+    }
   }
 
   Widget _buttonLogin() {
@@ -96,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: _con.login,
         child: Text('Ingresar'),
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,
